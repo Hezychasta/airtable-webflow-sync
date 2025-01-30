@@ -30,7 +30,6 @@ async function fetchAirtableRecords() {
     return records.map((record) => ({
       id: record.id,
       name: record.fields.Name,
-      city: record.fields.City, // ✅ Include City field
     }));
   } catch (error) {
     console.error("❌ Error fetching Airtable data:", error.message);
@@ -47,7 +46,6 @@ async function fetchWebflowRecords() {
     return response.data.items.map((item) => ({
       id: item.id,
       name: item.name,
-      city: item.fieldData?.city || "", // ✅ Include City field
       slug: item.slug,
     }));
   } catch (error) {
@@ -60,11 +58,10 @@ async function fetchWebflowRecords() {
 function mapAirtableToWebflowFields(airtableFields) {
   return {
     name: airtableFields.name,
-    city: airtableFields.city, // ✅ Sync City field
     slug: airtableFields.name
       .toLowerCase()
       .replace(/\s+/g, "-")
-      .replace(/[^a-z0-9-_]/g, ""), // Generate slug from name
+      .replace(/[^a-z0-9-_]/g, ""),
   };
 }
 
